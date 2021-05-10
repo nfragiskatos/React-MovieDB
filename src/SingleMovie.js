@@ -1,36 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { API_ENDPOINT } from './context';
+import useFetch from './useFetch';
 const url = 'https://upload.wikimedia.org/wikipedia/commons/f/fc/No_picture_available.png';
 
 const SingleMovie = () => {
 	const { id } = useParams();
-	const [ movie, setMovie ] = useState({});
-	const [ isLoading, setIsLoading ] = useState(true);
-	const [ error, setError ] = useState({ show: false, msg: '' });
-
-	const fetchMovie = async (url) => {
-		setIsLoading(true);
-		const response = await fetch(url);
-		const data = await response.json();
-
-		if (data.Response === 'True') {
-			setMovie(data);
-		} else {
-			setError({
-				show : true,
-				msg  : data.Error
-			});
-		}
-		setIsLoading(false);
-	};
-
-	useEffect(
-		() => {
-			fetchMovie(`${API_ENDPOINT}&i=${id}`);
-		},
-		[ id ]
-	);
+	const { isLoading, error, data: movie } = useFetch(`&i=${id}`);
 
 	if (isLoading) {
 		return <div className='loading' />;
