@@ -3,14 +3,15 @@ import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home';
 import Movie from './SingleMovie';
+import { proj } from './ProjectProperties';
 
-function App () {
+function App() {
 	return (
 		<Switch>
-			<Route path='/' exact>
+			<Route exact path={proj.nav.home}>
 				<Home />
 			</Route>
-			<Route path='/movies/:id' children={<Movie />} />
+			<Route path={proj.nav.movieDetails} children={<Movie />} />
 		</Switch>
 	);
 }
